@@ -1,0 +1,23 @@
+{
+  "name": "music-player",
+  "description": "Browser based music player",
+  "main": "build/index.html",
+  "authors": [
+    "Noah Freitas <noah.j.freitas@gmail.com>"
+  ],
+  "license": "ISC",
+  "moduleType": [
+    "es6"
+  ],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "system.js": "^0.19.24"
+  }
+}

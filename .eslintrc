@@ -1,0 +1,45 @@
+{
+  "ecmaFeatures" : {
+    "arrowFunctions"                   : true,
+    "binaryLiterals"                   : true,
+    "blockBindings"                    : true,
+    "classes"                          : true,
+    "defaultParams"                    : true,
+    "destructuring"                    : true,
+    "forOf"                            : true,
+    "generators"                       : true,
+    "modules"                          : true,
+    "objectLiteralComputedProperties"  : true,
+    "objectLiteralDuplicateProperties" : true,
+    "objectLiteralShorthandMethods"    : true,
+    "objectLiteralShorthandProperties" : true,
+    "octalLiterals"                    : true,
+    "regexUFlag"                       : false,
+    "regexYFlag"                       : false,
+    "restParams"                       : true,
+    "spread"                           : true,
+    "superInFunctions"                 : false,
+    "templateStrings"                  : true,
+    "unicodeCodePointEscapes"          : true
+  },
+  "env" : {
+    "browser" : true
+  },
+  "globals" : {},
+  "rules" : {
+    "camelcase"             : 0,
+    "comma-spacing"         : 0,
+    "curly"                 : 0,
+    "key-spacing"           : 0,
+    "no-catch-shadow"       : 0,
+    "no-cond-assign"        : 0,
+    "no-extra-semi"         : 0,
+    "no-multi-spaces"       : 0,
+    "no-return-assign"      : 0,
+    "no-shadow"             : 0,
+    "no-underscore-dangle"  : 0,
+    "no-unused-expressions" : 0,
+    "no-use-before-define"  : 0,
+    "quotes"                : [2, "single"]
+  }
+}
