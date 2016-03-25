@@ -1,1 +1,2 @@
-# Simple Music Player
+# Maenad
+## Simple Music Player

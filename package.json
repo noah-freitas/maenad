@@ -1,8 +1,9 @@
 {
-  "name": "music-player",
+  "name": "maenad",
   "version": "0.0.0",
   "description": "Browser based music player",
-  "main": "build/index.html",
+  "repository": "https://github.com/noah-freitas/maenad",
+  "main": "dist/index.html",
   "scripts": {
     "build": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
