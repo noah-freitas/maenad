@@ -1,6 +1,6 @@
 import db         from 'lib/db.js';
 import registerEl from 'lib/register-element.js';
-import template   from './template.js';
+import templateFn from './template.js';
 
 export default registerEl('maenad-loader', {
     createdCallback,
@@ -9,7 +9,7 @@ export default registerEl('maenad-loader', {
 
 // createdCallback :: undefined -> undefined
 function createdCallback() {
-    this.appendChild(document.importNode(template.content, true));
+    this.appendChild(templateFn());
 
     this.querySelector('input[type="file"]').addEventListener('change', e => {
         this.load(Array.from(e.target.files));
