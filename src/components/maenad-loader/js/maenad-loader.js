@@ -1,8 +1,20 @@
+import db         from 'lib/db.js';
 import registerEl from 'lib/register-element.js';
+import template   from './template.js';
 
 export default registerEl('maenad-loader', {
+    createdCallback,
     load
 });
+
+// createdCallback :: undefined -> undefined
+function createdCallback() {
+    this.appendChild(document.importNode(template.content, true));
+
+    this.querySelector('input[type="file"]').addEventListener('change', e => {
+        this.load(Array.from(e.target.files));
+    })
+}
 
 // load :: [File] -> Promise<undefined>
 function load(files) {
@@ -19,8 +31,11 @@ function load(files) {
 
 // writeFilesToDb :: [File] -> Promise<undefined>
 function writeFilesToDb(files) {
-    return getDb().then(getFilesObjectStore)
-                  .then(writeFiles)
-                  .then(() => undefined)
+    return db.getObjectStore('file', 'readwrite')
+             .then(writeFiles);
 
+    // writeFiles :: IDBObjectStore -> undefined
+    function writeFiles(fileStore) {
+        files.forEach(f => fileStore.add(f));
+    }
 }
