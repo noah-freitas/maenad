@@ -10,8 +10,5 @@ export default dbDef;
 function upgrade1(e) {
     console.info(`Upgrading ${ dbDef.name } from version ${ e.oldVersion } to version ${ e.newVersion }, currently at upgrade 1.`);
 
-    let db        = e.target.result,
-        fileStore = db.createObjectStore('file', { keyPath : 'name' });
-
-    fileStore.createIndex('modified', 'lastModifiedDate', { unique : false });
+    e.target.result.createObjectStore('file', { keyPath : 'name' });
 }

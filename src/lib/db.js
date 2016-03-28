@@ -5,14 +5,17 @@ let dbs = {
 };
 
 export default {
+    getCursor,
     getDb,
     getObjectStore
 };
 
-// getObjectStore :: String, String, String?, String? -> Promise<IDBObjectStore>
-function getObjectStore(storeName, permission, dbName, dbVersion) {
-    return getDb.apply(null, Array.from(arguments).slice(2))
-                .then(db => db.transaction(storeName, permission).objectStore(storeName));
+// getCursor :: IDBObjectStore, (Event -> undefined) -> Promise<IDBCursorWithValue>
+function getCursor(objectStore, cb) {
+    return new Promise((res, rej) => {
+        let req = objectStore.openCursor();
+        req.addEventListener('success', cb)
+    });
 }
 
 // getDb :: String, Number -> Promise<IDBDatabase>
@@ -32,4 +35,10 @@ function getDb(name = mainDb.name, version = mainDb.version) {
 
         upgrades.forEach(u => u(e));
     }
+}
+
+// getObjectStore :: String, String, String?, String? -> Promise<IDBObjectStore>
+function getObjectStore(storeName, permission, dbName, dbVersion) {
+    return getDb.apply(null, Array.from(arguments).slice(2))
+                .then(db => db.transaction(storeName, permission).objectStore(storeName));
 }
