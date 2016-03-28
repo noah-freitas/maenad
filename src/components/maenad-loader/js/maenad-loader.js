@@ -11,9 +11,8 @@ export default registerEl('maenad-loader', {
 function createdCallback() {
     this.appendChild(templateFn());
 
-    this.querySelector('input[type="file"]').addEventListener('change', e => {
-        this.load(Array.from(e.target.files));
-    })
+    this.querySelector('input[type="file"]')
+        .addEventListener('change', e => this.load(Array.from(e.target.files)));
 }
 
 // load :: [File] -> Promise<undefined>
