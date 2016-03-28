@@ -18,8 +18,11 @@ gulp.task('compile-html', ['compile-js'], function () {
 });
 
 gulp.task('compile-js', ['clean-all'], function () {
-    gulp.src('bower_components/system.js/dist/system.js')
-        .pipe(gulp.dest('dist/js'));
+    gulp.src([
+          'bower_components/id3js/id3.min.js',
+          'bower_components/system.js/dist/system.js'
+        ])
+        .pipe(gulp.dest('dist/bower_components'));
 
     return gulp.src('src/**/*.js')
                .pipe(babel())

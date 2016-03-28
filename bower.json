@@ -18,6 +18,7 @@
     "tests"
   ],
   "dependencies": {
-    "system.js": "^0.19.24"
+    "system.js": "^0.19.24",
+    "id3js": "id3#^1.0.2"
   }
 }
