@@ -1,4 +1,5 @@
-import db from 'lib/db.js';
+import db   from 'lib/db.js';
+import Song from 'lib/song.js';
 
 export default {
     addFiles,
@@ -7,25 +8,25 @@ export default {
 
 // addFiles :: [File] -> Promise<undefined>
 function addFiles(files) {
-    return db.getObjectStore('file', 'readwrite')
-             .then(writeFiles);
+    return Promise.all(files.map(Song))
+                  .then(getObjectStore)
+                  .then(saveSongs);
 
-    // writeFiles :: IDBObjectStore -> undefined
-    function writeFiles(fileStore) {
-        files.forEach(file => fileStore.add({
-            file,
-            lastModifiedDate : file.lastModifiedDate.getTime(),
-            name             : file.name,
-            size             : file.size,
-            type             : file.type
-        }));
+    // getObjectStore :: [Song] -> Promise<[IDBObjectStore, [Song]]>
+    function getObjectStore(songs) {
+        return Promise.all([db.getObjectStore('song', 'readwrite'), songs]);
+    }
+
+    // saveSongs :: [IDBObjectStore, [Song]] -> undefined
+    function saveSongs([songStore, songs]) {
+        songs.forEach(song => songStore.add(song));
     }
 }
 
 // getFirstSong :: undefined -> Promise<Song || null>
 function getFirstSong() {
     return new Promise((res, rej) => {
-        db.getObjectStore('file', 'readonly')
+        db.getObjectStore('song', 'readonly')
           .then(objStore => db.getCursor(objStore, e => res(e.target.result && e.target.result.value)))
           .catch(rej);
     });
