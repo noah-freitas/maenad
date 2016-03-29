@@ -5,10 +5,20 @@ let dbs = {
 };
 
 export default {
+    getAllFromStore,
     getCursor,
     getDb,
     getObjectStore
 };
+
+// getAllFromStore :: IDBObjectStore -> Promise<[a]>
+function getAllFromStore(store) {
+    return new Promise((res, rej) => {
+        let req = store.getAll();
+        req.addEventListener('success', e => res(e.target.result));
+        req.addEventListener('error'  , rej);
+    });
+}
 
 // getCursor :: IDBObjectStore, (Event -> undefined) -> Promise<IDBCursorWithValue>
 function getCursor(objectStore, cb) {

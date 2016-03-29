@@ -3,6 +3,7 @@ import Song from 'lib/song.js';
 
 export default {
     addFiles,
+    getAllSongs,
     getFirstSong
 };
 
@@ -21,6 +22,12 @@ function addFiles(files) {
     function saveSongs([songStore, songs]) {
         songs.forEach(song => songStore.add(song));
     }
+}
+
+// getAllSongs :: undefined -> Promise<[Song]>
+function getAllSongs() {
+    return db.getObjectStore('song', 'readonly')
+             .then(db.getAllFromStore);
 }
 
 // getFirstSong :: undefined -> Promise<Song || null>
