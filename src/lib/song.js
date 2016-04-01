@@ -8,7 +8,7 @@ function song(file) {
         id3(file, (err, metadata) => err ? rej(err) : res(metadata))
     ).then(metadata =>
         Object.assign(iD3DataConverter(metadata), {
-            file,
+            file : Promise.resolve(file),
             metadata
         })
     ).catch(err => {
@@ -19,7 +19,7 @@ function song(file) {
             artist   : null,
             title    : null,
             year     : null,
-            file,
+            file     : Promise.resolve(file),
             metadata : {}
         };
     });

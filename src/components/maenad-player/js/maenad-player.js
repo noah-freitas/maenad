@@ -19,15 +19,18 @@ function createdCallback() {
     this.appendChild(audioEl);
 }
 
-// play :: Song -> undefined
+// play :: Song -> Promise<undefined>
 function play(song) {
     let audio = this.querySelector('audio');
 
     if (!song) {
         audio.src = null;
         audio.pause();
-    } else {
-        audio.src = URL.createObjectURL(song.file);
+        return Promise.resolve(undefined);
+    };
+
+    return song.file.then(file => {
+        audio.src = URL.createObjectURL(file);
         audio.play();
-    }
+    });
 }
