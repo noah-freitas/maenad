@@ -4,22 +4,20 @@ export default song;
 
 // song :: File -> Song
 function song(file) {
-    return new Promise((res, rej) => {
-        try {
-            id3(file, (err, metadata) => err ? rej(err) : res(metadata));
-        } catch (err) {
-            rej(err);
-        }
-    }).then(metadata => Object.assign(iD3DataConverter(metadata), {
-        file,
-        metadata
-    })).catch(err => {
+    return new Promise((res, rej) =>
+        id3(file, (err, metadata) => err ? rej(err) : res(metadata))
+    ).then(metadata =>
+        Object.assign(iD3DataConverter(metadata), {
+            file,
+            metadata
+        })
+    ).catch(err => {
         console.error(`Could not get info for ${ file.name }`, err, err.stack);
 
         return {
             album    : null,
             artist   : null,
-            title    : file.name,
+            title    : null,
             year     : null,
             file,
             metadata : {}
@@ -31,7 +29,7 @@ function song(file) {
         return {
             album  : data.album,
             artist : data.artist,
-            title  : data.title || file.name,
+            title  : data.title,
             year   : data.year
         };
     }

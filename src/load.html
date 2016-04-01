@@ -14,5 +14,25 @@
         <maenad-loader></maenad-loader>
         <script src="bower_components/system.js"></script>
         <script>System.import('js/load.js');</script>
+        <script>
+            if (true) {
+                let loader = document.querySelector('maenad-loader');
+
+                loader.addEventListener(
+                    'maenad:loading-files',
+                    console.log.bind(console, 'maenad:-loading files')
+                );
+
+                loader.addEventListener(
+                    'maenad:done-loading-files',
+                    console.log.bind(console, 'maenad:done-loading files')
+                );
+
+                loader.addEventListener(
+                    'maenad:error-loading-files',
+                    console.log.bind(console, 'maenad:error-loading files')
+                );
+            }
+        </script>
     </body>
 </html>

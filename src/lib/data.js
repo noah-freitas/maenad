@@ -18,9 +18,15 @@ function addFiles(files) {
         return Promise.all([db.getObjectStore('song', 'readwrite'), songs]);
     }
 
-    // saveSongs :: [IDBObjectStore, [Song]] -> undefined
+    // saveSongs :: [IDBObjectStore, [Song]] -> Promise<undefined>
     function saveSongs([songStore, songs]) {
-        songs.forEach(song => songStore.add(song));
+        return new Promise((res, rej) => {
+            let trans = songStore.transaction;
+            trans.addEventListener('complete', () => res());
+            trans.addEventListener('error'   , rej);
+
+            songs.forEach(song => songStore.add(song));
+        });
     }
 }
 

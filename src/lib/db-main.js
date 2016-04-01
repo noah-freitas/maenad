@@ -10,5 +10,5 @@ export default dbDef;
 function upgrade1(e) {
     console.info(`Upgrading ${ dbDef.name } from version ${ e.oldVersion } to version ${ e.newVersion }, currently at upgrade 1.`);
 
-    e.target.result.createObjectStore('song', { keyPath : 'title' });
+    e.target.result.createObjectStore('song', { autoIncrement : true, keyPath : 'id' });
 }
