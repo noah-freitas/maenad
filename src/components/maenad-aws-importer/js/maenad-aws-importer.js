@@ -1,10 +1,7 @@
-import cfg        from 'lib/maenad-config.js';
-import registerEl from 'lib/register-element.js';
-
-AWS.config.update({
-    accessKeyId     : cfg.AWS.accessKeyId,
-    secretAccessKey : cfg.AWS.secretAccessKey
-});
+import config                       from 'lib/maenad-config.js';
+import MaenadAwsSongImporterElement from 'components/maenad-aws-song-importer/js/maenad-aws-song-importer.js';
+import registerEl                   from 'lib/register-element.js';
+import s3                           from 'lib/s3.js';
 
 export default registerEl('maenad-aws-importer', {
     attachedCallback
@@ -12,31 +9,17 @@ export default registerEl('maenad-aws-importer', {
 
 // attachedCallback :: undefined -> undefined
 function attachedCallback() {
-    let s3 = new AWS.S3({ params : { Bucket : cfg.AWS.bucket }});
-
     s3.listObjects({
-        Prefix : cfg.AWS.songsPrefix
-    }, (err, res) => {
+        Prefix : config.AWS.songsPrefix
+    }, (err, resp) => {
         if (err) throw err;
 
-        res.Contents.forEach(obj => {
-            let div         = document.createElement('div');
-            div.textContent = stripPrefix(obj.Key);
-            this.appendChild(div);
-        });
-
-        let testFile = res.Contents[100];
-        console.info('Getting', testFile);
-        s3.getObject({
-            Key : testFile.Key
-        }, (err, data) => {
-            let file = new File([data.Body], stripPrefix(testFile.Key), { type : data.ContentType });
-            console.info('Got test file and converted to file object: ', file);
-        });
+        resp.Contents
+            .filter(obj => !obj.Key.endsWith('/'))
+            .forEach(obj => {
+                let songEl = new MaenadAwsSongImporterElement();
+                songEl.src = obj.Key;
+                this.appendChild(songEl);
+            });
     });
-
-    // stripPrefix :: String -> String
-    function stripPrefix(str) {
-        return str.replace(`${ cfg.AWS.songsPrefix }/`, '');
-    }
 }
