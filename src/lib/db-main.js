@@ -1,7 +1,7 @@
 let dbDef = {
     name     : 'maenad',
-    version  : 2,
-    upgrades : [upgrade1, upgrade2]
+    version  : 1,
+    upgrades : [upgrade1]
 };
 
 export default dbDef;
@@ -10,15 +10,10 @@ export default dbDef;
 function upgrade1(e) {
     logVersionUpgrade(e, 1);
 
-    e.target.result.createObjectStore('song', { autoIncrement : true, keyPath : 'id' });
-}
-
-// upgrade2 :: IDBVersionChangeEvent -> undefined
-function upgrade2(e) {
-    logVersionUpgrade(e, 2);
-
-    e.target.result.createObjectStore('config', { keyPath : 'name' })
-                   .createIndex('value', 'value', { unique : false });
+    let os = e.target.result.createObjectStore('song', { autoIncrement : true, keyPath : 'id' });
+    os.createIndex('album' , 'album' , { unique : false });
+    os.createIndex('artist', 'artist', { unique : false });
+    os.createIndex('title' , 'title' , { unique : false });
 }
 
 // logVersionUpgrade :: IDBVersionChangeEvent, String -> undefined

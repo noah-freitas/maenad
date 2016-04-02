@@ -1,4 +1,4 @@
-import config from 'lib/maenad-config.js';
+import config from 'lib/config.js';
 
 AWS.config.update({
     accessKeyId     : config.AWS.accessKeyId,

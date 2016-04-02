@@ -38,7 +38,7 @@ function song(file) {
 // Song :: {
 //     album    :: String
 //     artist   :: String
-//     file     :: File
+//     file     :: Promise<File>
 //     metadata :: id3Format
 //     title    :: String
 //     year     :: Number

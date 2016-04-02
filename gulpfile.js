@@ -23,10 +23,6 @@ gulp.task('compile-css', ['compile-js'], function () {
 });
 
 gulp.task('compile-js', ['clean-all'], function () {
-    gulp.src('maenad-config.js')
-        .pipe(babel())
-        .pipe(gulp.dest('dist/lib'));
-
     gulp.src([
           'bower_components/aws-sdk/dist/aws-sdk.js',
           'bower_components/system.js/dist/system.js'

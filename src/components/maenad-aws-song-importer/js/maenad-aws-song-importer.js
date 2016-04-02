@@ -1,4 +1,4 @@
-import config     from 'lib/maenad-config.js';
+import config     from 'lib/config.js';
 import registerEl from 'lib/register-element.js';
 import s3         from 'lib/s3.js';
 

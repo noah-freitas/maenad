@@ -1,0 +1,19 @@
+maenad-configuration-manager {
+    display : block;
+    width   : 100%;
+}
+
+maenad-configuration-manager label {
+    display        : flex;
+    flex-direction : row;
+    padding        : 15px;
+}
+
+maenad-configuration-manager label span {
+    flex        : 1 1 40%;
+    font-weight : bold;
+}
+
+maenad-configuration-manager label input {
+    flex : 1 1 60%;
+}
