@@ -11,31 +11,28 @@ export default {
     getObjectStore
 };
 
+// getFromStore :: String, String -> Promise<a>
+function getFromStore(store, key) {
+    return getObjectStore(store, 'readonly')
+            .then(os => idbRequestToPromise(os, 'get', [key]));
+}
+
 // getAllFromStore :: IDBObjectStore -> Promise<[a]>
 function getAllFromStore(store) {
-    return new Promise((res, rej) => {
-        let req = store.getAll();
-        req.addEventListener('success', e => res(e.target.result));
-        req.addEventListener('error'  , rej);
-    });
+    return idbRequestToPromise(store, 'getAll');
 }
 
 // getCursor :: IDBObjectStore, (Event -> undefined) -> Promise<IDBCursorWithValue>
 function getCursor(objectStore, cb) {
-    return new Promise((res, rej) => {
-        let req = objectStore.openCursor();
-        req.addEventListener('success', cb)
-    });
+    return idbRequestToPromise(objectStore, 'openCursor', [], { successCallBack : cb });
 }
 
 // getDb :: String, Number -> Promise<IDBDatabase>
 function getDb(name = mainDb.name, version = mainDb.version) {
-    return new Promise((res, rej) => {
-        let req = indexedDB.open(name, version);
-
-        req.addEventListener('error'         , (e => rej(new Error(`Database error: ${ e.target.errorCode }`))));
-        req.addEventListener('success'       , (e => res(e.target.result)));
-        req.addEventListener('upgradeneeded' , performUpgrades);
+    return idbRequestToPromise(window.indexedDB, 'open', [name, version], {
+        events : {
+            upgradeneeded : performUpgrades
+        }
     });
 
     // performUpgrades :: IDBVersionChangeEvent -> undefined
@@ -51,4 +48,19 @@ function getDb(name = mainDb.name, version = mainDb.version) {
 function getObjectStore(storeName, permission, dbName, dbVersion) {
     return getDb.apply(null, Array.from(arguments).slice(2))
                 .then(db => db.transaction(storeName, permission).objectStore(storeName));
+}
+
+// idbRequestToPromise :: IDBObjectStore, String, [a], OverridesOpts -> Promise<IDBRequestResult>
+// OverridesOpts :: { successCallBack :: (Event -> undefined), errorCallBack :: (Event -> undefined) }
+function idbRequestToPromise(obj, method, args = [], overrides = {}) {
+    return new Promise((res, rej) => {
+        let req = obj[method].apply(obj, args);
+
+        req.addEventListener('success', overrides.successCallBack || res);
+        req.addEventListener('error'  , overrides.errorCallBack   || rej);
+
+        if (overrides.events) Object.keys(overrides.events).forEach(eName => {
+            req.addEventListener(eName, overrides.events[eName]);
+        });
+    }).then(e => e.target.result);
 }
