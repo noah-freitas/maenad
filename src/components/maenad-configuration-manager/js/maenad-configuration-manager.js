@@ -1,3 +1,4 @@
+import config     from 'lib/config.js';
 import registerEl from 'lib/register-element.js';
 
 export default registerEl('maenad-configuration-manager', {
@@ -6,7 +7,7 @@ export default registerEl('maenad-configuration-manager', {
 
 // createdCallback :: undefined -> undefined
 function createdCallback() {
-    showConfigs.call(this, JSON.parse(localStorage.config));
+    showConfigs.call(this, config);
 
     let button         = document.createElement('button');
     button.textContent = 'Save';
