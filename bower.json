@@ -19,6 +19,7 @@
   ],
   "dependencies": {
     "system.js": "^0.19.24",
-    "aws-sdk": "aws-sdk-js#^2.3.0"
+    "aws-sdk": "aws-sdk-js#^2.3.0",
+    "document-register-element": "^0.5.4"
   }
 }

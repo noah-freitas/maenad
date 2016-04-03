@@ -1,3 +1,5 @@
+import 'bower_components/document-register-element.js';
+
 export default registerEl;
 
 // registerEl :: String, { * :: Function }, ElementPrototype -> (undefined -> Element)

@@ -25,6 +25,7 @@ gulp.task('compile-css', ['compile-js'], function () {
 gulp.task('compile-js', ['clean-all'], function () {
     gulp.src([
           'bower_components/aws-sdk/dist/aws-sdk.js',
+          'bower_components/document-register-element/build/document-register-element.js',
           'bower_components/system.js/dist/system.js'
         ])
         .pipe(gulp.dest('dist/bower_components'));
