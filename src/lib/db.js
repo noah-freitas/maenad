@@ -11,29 +11,26 @@ export default {
     getObjectStore
 };
 
-// getFromStore :: String, String -> Promise<a>
-function getFromStore(store, key) {
-    return getObjectStore(store, 'readonly')
-            .then(os => idbRequestToPromise(os, 'get', [key]));
-}
-
 // getAllFromStore :: IDBObjectStore -> Promise<[a]>
 function getAllFromStore(store) {
     return idbRequestToPromise(store, 'getAll');
 }
 
-// getCursor :: IDBObjectStore, (Event -> undefined) -> Promise<IDBCursorWithValue>
-function getCursor(objectStore, cb) {
-    return idbRequestToPromise(objectStore, 'openCursor', [], { successCallBack : cb });
+// getCursor :: (Error, Event -> undefined), IDBObjectStore -> undefined
+function getCursor(cb, objectStore) {
+    let req = objectStore.openCursor();
+
+    req.addEventListener('success', e => cb(null, e));
+    req.addEventListener('error'  , e => cb(e));
 }
 
-// getDb :: String, Number -> Promise<IDBDatabase>
-function getDb(name = mainDb.name, version = mainDb.version) {
-    return idbRequestToPromise(window.indexedDB, 'open', [name, version], {
-        events : {
-            upgradeneeded : performUpgrades
-        }
-    });
+// getDb :: (Error, IDBDatabase -> undefined), String, Number -> undefined
+function getDb(cb, name = mainDb.name, version = mainDb.version) {
+    let req = window.indexedDB.open(name, version);
+
+    req.addEventListener('success'       , e => cb(null, e.target.result));
+    req.addEventListener('error'         , e => cb(e));
+    req.addEventListener('upgradeneeded' , performUpgrades);
 
     // performUpgrades :: IDBVersionChangeEvent -> undefined
     function performUpgrades(e) {
@@ -44,10 +41,15 @@ function getDb(name = mainDb.name, version = mainDb.version) {
     }
 }
 
-// getObjectStore :: String, String, String?, String? -> Promise<IDBObjectStore>
-function getObjectStore(storeName, permission, dbName, dbVersion) {
-    return getDb.apply(null, Array.from(arguments).slice(2))
-                .then(db => db.transaction(storeName, permission).objectStore(storeName));
+// getObjectStore :: (Error, IDBObjectStore -> undefined), String, String, String?, String? -> undefined
+function getObjectStore(cb, storeName, permission, dbName, dbVersion) {
+    getDb(getStoreFromDbAndCallCb, dbName, dbVersion);
+
+    // getStoreFromDbAndCallCb :: Error, IDBDatabase -> undefined
+    function getStoreFromDbAndCallCb(err, db) {
+        if (err) return cb(err);
+        cb(null, db.transaction(storeName, permission).objectStore(storeName))
+    }
 }
 
 // idbRequestToPromise :: IDBObjectStore, String, [a], OverridesOpts -> Promise<IDBRequestResult>
