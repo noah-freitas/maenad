@@ -10,26 +10,20 @@ export default {
 // addFiles :: [File] -> Promise<undefined>
 function addFiles(files) {
     return Promise.all(files.map(Song))
-                  .then(getObjectStore)
-                  .then(saveSongs);
+                  .then(getObjectStoreAndSaveSongs);
 
-    // getObjectStore :: [Song] -> Promise<[IDBObjectStore, [Song]]>
-    function getObjectStore(songs) {
-        return Promise.all([db.getObjectStore('song', 'readwrite'), songs]);
-    }
-
-    // saveSongs :: [IDBObjectStore, [Song]] -> Promise<undefined>
-    function saveSongs([songStore, songs]) {
+    // getObjectStoreAndSaveSongs :: [Song] -> Promise<undefined>
+    function getObjectStoreAndSaveSongs(songs) {
         return new Promise((res, rej) => {
-            let trans = songStore.transaction;
-            trans.addEventListener('complete', () => res());
-            trans.addEventListener('error'   , rej);
+            db.getObjectStore((err, os) => {
+                if (err) return rej(err);
 
-            songs.forEach(song =>
-                song.file.then(file =>
-                    songStore.add(Object.assign(song, { file }))
-                )
-            );
+                let trans = os.transaction;
+                trans.addEventListener('complete', () => res());
+                trans.addEventListener('error'   , rej);
+
+                songs.forEach((song, i) => os.add(Object.assign(song, { file : files[i] })));
+            }, 'song', 'readwrite');
         });
     }
 }
@@ -41,16 +35,28 @@ function songFileToPromise(song) {
 
 // getAllSongs :: undefined -> Promise<[Song]>
 function getAllSongs() {
-    return db.getObjectStore('song', 'readonly')
-             .then(db.getAllFromStore)
-             .then(songs => songs.map(songFileToPromise));
+    return new Promise((res, rej) => {
+        db.getObjectStore((err, os) => {
+            if (err) return rej(err);
+
+            db.getAllFromStore(os)
+              .then(songs => songs.map(songFileToPromise))
+              .then(res, rej);
+        }, 'song', 'readonly');
+    });
 }
 
 // getFirstSong :: undefined -> Promise<Song || null>
 function getFirstSong() {
     return new Promise((res, rej) => {
-        db.getObjectStore('song', 'readonly')
-          .then(objStore => db.getCursor(objStore, e => res(e.target.result && e.target.result.value)))
-          .catch(rej);
+        db.getObjectStore((err, os) => {
+            if (err) return rej(err);
+
+            db.getCursor((err, e) => {
+                if (err) return rej(err);
+
+                res(e.target.result && e.target.result.value);
+            }, os);
+        }, 'song', 'readonly');
     }).then(songFileToPromise);
 }
