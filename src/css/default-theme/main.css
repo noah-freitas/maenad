@@ -7,38 +7,71 @@
     width   : 100%;
 }
 
-.maenad-scrollable {
+maenad-song-list {
+    display    : block;
+    height     : calc(100vh - 55px);
     overflow-x : hidden;
     overflow-y : scroll;
 }
 
 maenad-song-item {
-    align-items     : stretch;
-    display         : flex;
-    flex-direction  : row;
-    justify-content : space-around;
+    border-bottom : 1px solid #ccc;
+    display       : flex;
+    margin-bottom : 5px;
+    flex-flow     : row wrap;
 }
 
 maenad-song-item > span {
-    flex : 1 1 30vw;
+    flex          : 1 1 30vw;
+    overflow      : hidden;
+    text-overflow : ellipsis;
+    white-space   : nowrap;
+}
+
+@media (max-width: 600px) {
+    maenad-song-item > span.title {
+        flex          : 2 1 100vw;
+        margin-bottom : 10px;
+    }
+
+    maenad-song-item > span.artist {
+        padding-right : 10px;
+    }
+}
+
+maenad-player  {
+    background : white;
+    bottom     : 0;
+    display    : block;
+    height     : 20px;
+    left       : 0;
+    overflow   : hidden;
+    position   : fixed;
+    width      : 100vw;
+    z-index    : 10;
 }
 
 maenad-player h1 {
-    font-size   : 1.5em;
-    font-weight : normal;
-    text-align  : center;
-    white-space : nowrap;
+    box-sizing    : border-box;
+    font-size     : 1em;
+    font-weight   : normal;
+    padding       : 0 10px;
+    text-align    : center;
+    text-overflow : ellipsis;
+    white-space   : nowrap;
 }
 
 
 html, body {
     height   : 100vh;
+    margin   : 0;
     overflow : hidden;
+    padding  : 0;
     width    : 100vw;
 }
 
 nav {
-    height   : 70px;
+    height   : 40px;
     left     : 0;
     position : fixed;
     top      : 0;
@@ -46,26 +79,31 @@ nav {
 }
 
 nav ul {
-    align-items     : stretch;
-    display         : flex;
-    flex-direction  : row;
-    justify-content : space-around;
-    list-style      : none;
+    list-style : none;
+    margin     : 0;
+    padding    : 0;
 }
 
 nav ul li {
-    flex       : 1 1 33vw;
-    padding    : 10px 1.5vw;
+    box-sizing : border-box;
+    display    : inline-block;
+    height     : 40px;
     text-align : center;
+    width      : 32%;
 }
 
 nav ul li a {
+    box-sizing      : border-box;
     display         : block;
+    height          : 40px;
+    padding-top     : 12px;
     text-decoration : none;
 }
 
 main {
-    height     : calc(100vh - 70px);
-    margin-top : 70px;
+    box-sizing : border-box;
+    height     : calc(100vh - 40px);
+    margin-top : 40px;
     overflow   : hidden;
+    padding    : 10px;
 }

@@ -18,6 +18,7 @@ function createdCallback() {
         titleEl = document.createElement('h1');
 
     audioEl.controls    = true;
+    audioEl.hidden      = true;
     titleEl.textContent = 'Maenad Player';
     this.appendChild(titleEl);
     this.appendChild(audioEl);
