@@ -1,0 +1,72 @@
+.maenad-list {
+    display : block;
+}
+
+.maenad-list-item {
+    height : 10vh;
+    width  : 100%;
+}
+
+.maenad-scrollable {
+    overflow-x : hidden;
+    overflow-y : scroll;
+}
+
+maenad-song-item {
+    align-items     : stretch;
+    display         : flex;
+    flex-direction  : row;
+    justify-content : space-around;
+}
+
+maenad-song-item > span {
+    flex : 1 1 30vw;
+}
+
+maenad-player h1 {
+    font-size   : 1.5em;
+    font-weight : normal;
+    text-align  : center;
+}
+
+maenad-player audio {
+    display : block;
+    width   : 100%;
+}
+
+html {
+    overflow : hidden;
+}
+
+nav {
+    height   : 70px;
+    left     : 0;
+    position : fixed;
+    top      : 0;
+    width    : 100vw;
+}
+
+nav ul {
+    align-items     : stretch;
+    display         : flex;
+    flex-direction  : row;
+    justify-content : space-around;
+    list-style      : none;
+}
+
+nav ul li {
+    flex       : 1 1 33vw;
+    padding    : 10px 1.5vw;
+    text-align : center;
+}
+
+nav ul li a {
+    display         : block;
+    text-decoration : none;
+}
+
+main {
+    height     : calc(100vh - 70px);
+    margin-top : 70px;
+    overflow   : hidden;
+}

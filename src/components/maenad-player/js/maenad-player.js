@@ -14,23 +14,30 @@ function attachedCallback() {
 
 // createdCallback :: undefined -> undefined
 function createdCallback() {
-    let audioEl      = document.createElement('audio');
-    audioEl.controls = true;
+    let audioEl = document.createElement('audio'),
+        titleEl = document.createElement('h1');
+
+    audioEl.controls    = true;
+    titleEl.textContent = 'Maenad Player';
+    this.appendChild(titleEl);
     this.appendChild(audioEl);
 }
 
 // play :: Song -> Promise<undefined>
 function play(song) {
-    let audio = this.querySelector('audio');
+    let audio = this.querySelector('audio'),
+        title = this.querySelector('h1');
 
     if (!song) {
         audio.src = null;
         audio.pause();
+        title.textContent = 'Maenad Player';
         return Promise.resolve(undefined);
     };
 
     return song.file.then(file => {
         audio.src = URL.createObjectURL(file);
         audio.play();
+        title.textContent = `${ song.title } by ${ song.artist } from ${ song.album }`;
     });
 }

@@ -2,8 +2,10 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Maenad - Player</title>
         <link rel="stylesheet" href="components/maenad-song-item/css/maenad-song-item.css">
+        <link rel="stylesheet" href="css/default-theme/main.css">
     </head>
     <body>
         <nav>
@@ -13,8 +15,14 @@
                 <li><a href="config.html">Configure</a></li>
             </ul>
         </nav>
-        <maenad-song-list></maenad-song-list>
-        <maenad-player></maenad-player>
+        <main>
+            <maenad-song-list
+                class="maenad-list maenad-scrollable"
+                style="height: calc(100vh - 70px - 100px)"></maenad-song-list>
+            <div class="sticky-footer" style="height: 100px">
+                <maenad-player></maenad-player>
+            </div>
+        </main>
         <script src="bower_components/system.js"></script>
         <script>System.import('js/play.js');</script>
     </body>
