@@ -3,8 +3,7 @@
 }
 
 .maenad-list-item {
-    height : 10vh;
-    width  : 100%;
+    width : 100%;
 }
 
 .maenad-scrollable {
@@ -27,12 +26,9 @@ maenad-player h1 {
     font-size   : 1.5em;
     font-weight : normal;
     text-align  : center;
+    white-space : nowrap;
 }
 
-maenad-player audio {
-    display : block;
-    width   : 100%;
-}
 
 html {
     overflow : hidden;
