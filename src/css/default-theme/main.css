@@ -31,8 +31,10 @@ maenad-player h1 {
 }
 
 
-html {
+html, body {
+    height   : 100vh;
     overflow : hidden;
+    width    : 100vw;
 }
 
 nav {
