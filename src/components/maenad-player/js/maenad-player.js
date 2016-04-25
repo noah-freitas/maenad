@@ -98,8 +98,9 @@ function playStateHandler(state) {
 
 // timeupdateHandler :: Event -> undefined
 function timeupdateHandler(e) {
-    let secondsSoFar  = e.timeStamp / 1000,
-        totalSeconds  = e.target.duration,
+    let audioEl       = e.target,
+        secondsSoFar  = audioEl.currentTime,
+        totalSeconds  = audioEl.duration,
         percentPlayed = Math.floor(secondsSoFar / totalSeconds * 100);
 
     requestAnimationFrame(() => this.querySelector('.play-progress').style.width = `${ percentPlayed }%`);
