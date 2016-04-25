@@ -10,8 +10,7 @@ maenad-configuration-manager label {
 }
 
 maenad-configuration-manager label span {
-    flex        : 1 1 40%;
-    font-weight : bold;
+    flex : 1 1 40%;
 }
 
 maenad-configuration-manager label input {

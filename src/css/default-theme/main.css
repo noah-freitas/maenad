@@ -82,11 +82,33 @@ maenad-player .play-progress {
     z-index        : -1;
 }
 
+maenad-loader article {
+    display : flex;
+}
+
+maenad-loader h1, maenad-loader input {
+    display : inline-block;
+    flex    : 1 1 50%;
+    margin  : 5px 0;
+}
+
 maenad-aws-importer {
     display    : block;
-    height     : calc(100vh - 40px - 100px);
+    height     : calc(100vh - 90px);
     overflow-x : hidden;
     overflow-y : auto;
+}
+
+maenad-configuration-manager input {
+    font-size : 1em;
+}
+
+maenad-configuration-manager button {
+    display    : block;
+    padding    : 10px;
+    margin-top : 10px;
+    text-align : center;
+    width      : 100%;
 }
 
 
@@ -135,4 +157,8 @@ main {
     margin-top : 40px;
     overflow   : hidden;
     padding    : 10px;
+}
+
+main h1 {
+    font-weight : normal;
 }
