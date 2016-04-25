@@ -2,8 +2,10 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Maenad - File Loader</title>
         <link rel="stylesheet" href="components/maenad-aws-song-importer/css/maenad-aws-song-importer.css">
+        <link rel="stylesheet" href="css/default-theme/main.css">
     </head>
     <body>
         <nav>
@@ -13,8 +15,10 @@
                 <li><a href="config.html">Configure</a></li>
             </ul>
         </nav>
-        <maenad-loader></maenad-loader>
-        <maenad-aws-importer></maenad-aws-importer>
+        <main>
+            <maenad-loader></maenad-loader>
+            <maenad-aws-importer></maenad-aws-importer>
+        </main>
         <script src="bower_components/system.js"></script>
         <script src="bower_components/aws-sdk.js"></script>
         <script>System.import('js/load.js');</script>

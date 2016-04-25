@@ -9,17 +9,32 @@ export default registerEl('maenad-aws-importer', {
 
 // attachedCallback :: undefined -> undefined
 function attachedCallback() {
-    s3.listObjects({
-        Prefix : config.AWS.songsPrefix
-    }, (err, resp) => {
+    getSongs(this);
+}
+
+// getSongs :: MaenadAwsImporterElement, String? -> undefined
+function getSongs(el, startKey) {
+    let reqOpts = {
+        MaxKeys : 1000,
+        Prefix  : config.AWS.songsPrefix
+    };
+
+    if (startKey) reqOpts.Marker = startKey;
+
+    s3.listObjects(reqOpts, handleResp);
+
+    // handleResp :: Error || null || AWS.Response
+    function handleResp(err, resp) {
         if (err) throw err;
 
-        resp.Contents
-            .filter(obj => !obj.Key.endsWith('/'))
-            .forEach(obj => {
-                let songEl = new MaenadAwsSongImporterElement();
-                songEl.src = obj.Key;
-                this.appendChild(songEl);
-            });
-    });
+        var songs = resp.Contents.slice(startKey ? 1 : 0).filter(obj => !obj.Key.endsWith('/'));
+
+        songs.forEach(obj => {
+            let songEl = new MaenadAwsSongImporterElement();
+            songEl.src = obj.Key;
+            el.appendChild(songEl);
+        });
+
+        if (resp.IsTruncated) getSongs(el, songs[songs.length - 1].Key);
+    }
 }

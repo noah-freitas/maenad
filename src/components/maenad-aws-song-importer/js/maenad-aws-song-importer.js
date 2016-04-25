@@ -19,6 +19,8 @@ function createdCallback() {
         }
     });
 
+    this.classList.add('maenad-list-item');
+
     this.addEventListener('click', () => {
         this.dataset.importing = 'true';
 

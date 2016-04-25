@@ -19,18 +19,22 @@ function createdCallback() {
     });
 
     let title  = document.createElement('span'),
+        album  = document.createElement('span'),
         artist = document.createElement('span');
 
     title.classList.add('title');
+    album.classList.add('album');
     artist.classList.add('artist');
+    this.classList.add('maenad-list-item');
 
     this.appendChild(title);
-    this.appendChild(document.createTextNode(' by '));
     this.appendChild(artist);
+    this.appendChild(album);
 }
 
 // showSong :: Song -> undefined
 function showSong(song) {
     this.querySelector('span.title').textContent  = song.title;
     this.querySelector('span.artist').textContent = song.artist;
+    this.querySelector('span.album').textContent  = song.album;
 }
