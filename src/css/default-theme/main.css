@@ -99,7 +99,8 @@ maenad-aws-importer {
     overflow-y : auto;
 }
 
-maenad-configuration-manager input {
+maenad-configuration-manager input,
+maenad-configuration-manager button {
     font-size : 1em;
 }
 
