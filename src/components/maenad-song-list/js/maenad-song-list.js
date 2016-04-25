@@ -17,7 +17,7 @@ function attachedCallback() {
 
     data.getAllSongs().then(songs => this.showSongs(songs));
     this.addEventListener('click', listeners.click);
-    this.addEventListener('maenad:done-playing', listeners['maenad:done-playing']);
+    this.ownerDocument.addEventListener('maenad:done-playing', listeners['maenad:done-playing']);
 }
 
 // createdCallback :: undefined -> undefined
@@ -31,11 +31,12 @@ function createdCallback() {
 // detachedCallback :: undefined -> undefined
 function detachedCallback() {
     this.removeEventListener('click', listeners.click);
-    this.removeEventListener('maenad:done-playing', listeners['maenad:done-playing']);
+    this.ownerDocument.removeEventListener('maenad:done-playing', listeners['maenad:done-playing']);
 }
 
 // showSongs :: [Song] -> undefined
 function showSongs(songs) {
+    this.songs = songs;
     songs.forEach(showSong.bind(this));
 
     // showSong :: Song -> undefined
@@ -54,5 +55,6 @@ function handleClick(e) {
 
 // handleDonePlaying :: CustomEvent -> undefined
 function handleDonePlaying(e) {
-    
+    let nextSong = this.songs[this.songs.findIndex(s => e.detail.id === s.id) + 1] || this.songs[0];
+    document.querySelector('maenad-player').play(nextSong);
 }

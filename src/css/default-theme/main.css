@@ -82,13 +82,21 @@ maenad-player .play-progress {
     z-index        : -1;
 }
 
+maenad-aws-importer {
+    display    : block;
+    height     : calc(100vh - 40px - 100px);
+    overflow-x : hidden;
+    overflow-y : auto;
+}
+
 
 html, body {
-    height   : 100vh;
-    margin   : 0;
-    overflow : hidden;
-    padding  : 0;
-    width    : 100vw;
+    font-family : sans-serif;
+    height      : 100vh;
+    margin      : 0;
+    overflow    : hidden;
+    padding     : 0;
+    width       : 100vw;
 }
 
 nav {

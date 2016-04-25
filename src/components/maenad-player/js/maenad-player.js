@@ -68,6 +68,7 @@ function play(song) {
     let audio = this.querySelector('audio'),
         title = this.querySelector('h1');
 
+    this.song = song;
     this.querySelector('.play-progress').style.width = '0';
 
     if (!song) {
@@ -105,5 +106,7 @@ function timeupdateHandler(e) {
 
     requestAnimationFrame(() => this.querySelector('.play-progress').style.width = `${ percentPlayed }%`);
 
-    if (percentPlayed === 100) this.dispatchEvent(new CustomEvent('maenad-player:done-playing', { bubbles : true }));
+    if (percentPlayed === 100) this.dispatchEvent(
+        new CustomEvent('maenad:done-playing', { bubbles : true, detail : this.song })
+    );
 }
