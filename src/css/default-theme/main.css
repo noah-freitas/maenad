@@ -3,7 +3,8 @@
 }
 
 .maenad-list-item {
-    padding : 5px 0;
+    margin  : 0;
+    padding : 10px 0;
     width   : 100%;
 }
 
@@ -21,11 +22,19 @@ maenad-song-item {
     flex-flow     : row wrap;
 }
 
+maenad-song-item[data-playing="true"] {
+    background : #eee;
+}
+
 maenad-song-item > span {
     flex          : 1 1 30vw;
     overflow      : hidden;
     text-overflow : ellipsis;
     white-space   : nowrap;
+}
+
+maenad-song-item > span.title {
+    padding-left : 10px;
 }
 
 @media (max-width: 600px) {
