@@ -1,6 +1,6 @@
 {
   "name": "maenad",
-  "version": "0.2.0-1",
+  "version": "0.1.0",
   "description": "Browser based music player",
   "repository": "https://github.com/noah-freitas/maenad",
   "main": "dist/index.html",

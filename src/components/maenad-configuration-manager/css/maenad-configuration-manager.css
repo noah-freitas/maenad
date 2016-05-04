@@ -16,7 +16,3 @@ maenad-configuration-manager label span {
 maenad-configuration-manager label input {
     flex : 1 1 60%;
 }
-
-maenad-configuration-manager button {
-    cursor : pointer;
-}
