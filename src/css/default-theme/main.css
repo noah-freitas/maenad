@@ -1,25 +1,17 @@
-.maenad-list {
-    display : block;
-}
-
-.maenad-list-item {
-    margin  : 0;
-    padding : 10px 0;
-    width   : 100%;
-}
-
-maenad-song-list {
+maenad-song-list, maenad-aws-importer {
     display    : block;
     height     : calc(100vh - 85px);
     overflow-x : hidden;
     overflow-y : scroll;
 }
 
-maenad-song-item {
+maenad-song-item, maenad-aws-song-importer {
     border-bottom : 1px solid #ccc;
     display       : flex;
-    margin-bottom : 5px;
+    margin-bottom : 0 0 5px;
     flex-flow     : row wrap;
+    padding       : 10px 0;
+    width         : 100%;
 }
 
 maenad-song-item[data-playing="true"] {

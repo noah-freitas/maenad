@@ -32,7 +32,6 @@ function createdCallback() {
     title.classList.add('title');
     album.classList.add('album');
     artist.classList.add('artist');
-    this.classList.add('maenad-list-item');
 
     this.appendChild(title);
     this.appendChild(artist);
