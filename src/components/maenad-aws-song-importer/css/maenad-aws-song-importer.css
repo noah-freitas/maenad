@@ -1,7 +1,6 @@
 maenad-aws-song-importer {
     cursor  : pointer;
     display : block;
-    margin  : 15px 0;
 }
 
 maenad-aws-song-importer[data-importing] {
