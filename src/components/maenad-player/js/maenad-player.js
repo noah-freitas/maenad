@@ -14,11 +14,14 @@ export default registerEl('maenad-player', {
 function attachedCallback() {
     let audioEl   = this.querySelector('audio'),
         listeners = eventListeners.get(this);
+
     this.addEventListener('click', listeners.click);
     audioEl.addEventListener('timeupdate', listeners.timeupdate);
     audioEl.addEventListener('play', listeners.play);
     audioEl.addEventListener('pause', listeners.pause);
-    data.getFirstSong().then(song => this.play(song));
+
+    setTimeout(() => { data.getFirstSong()
+                           .then(song => this.play(song)); }, 0);
 }
 
 // createdCallback :: undefined -> undefined
@@ -30,12 +33,13 @@ function createdCallback() {
     function attachTemplate() {
         let audioEl  = document.createElement('audio'),
             titleEl  = document.createElement('h1'),
-            progress = document.createElement('span');
+            progress = document.createElement('progress');
 
-        progress.classList.add('play-progress');
         audioEl.controls    = true;
         audioEl.hidden      = true;
         titleEl.textContent = 'Maenad Player';
+        progress.max        = 100;
+        progress.value      = 0;
         this.appendChild(titleEl);
         this.appendChild(audioEl);
         this.appendChild(progress);
@@ -69,7 +73,7 @@ function play(song) {
         title = this.querySelector('h1');
 
     this.song = song;
-    this.querySelector('.play-progress').style.width = '0';
+    this.querySelector('progress').value = 0;
 
     if (!song) {
         audio.src = null;
@@ -82,6 +86,7 @@ function play(song) {
         audio.src = URL.createObjectURL(file);
         audio.play();
         title.textContent = `${ song.title } by ${ song.artist } from ${ song.album }`;
+        fireEvent.call(this, 'maenad:start-playing', song);
     });
 }
 
@@ -90,6 +95,11 @@ function clickHandler(e) {
     let audio = this.querySelector('audio');
     if (audio.paused) audio.play();
     else              audio.pause();
+}
+
+// fireEvent :: String, a -> undefined
+function fireEvent(name, data) {
+    this.dispatchEvent(new CustomEvent(name, { bubbles : true, detail : data }));
 }
 
 // playStateHandler :: String -> undefined
@@ -104,9 +114,7 @@ function timeupdateHandler(e) {
         totalSeconds  = audioEl.duration,
         percentPlayed = Math.floor(secondsSoFar / totalSeconds * 100);
 
-    requestAnimationFrame(() => this.querySelector('.play-progress').style.width = `${ percentPlayed }%`);
+    requestAnimationFrame(() => this.querySelector('progress').value = percentPlayed);
 
-    if (percentPlayed === 100) this.dispatchEvent(
-        new CustomEvent('maenad:done-playing', { bubbles : true, detail : this.song })
-    );
+    if (percentPlayed === 100) fireEvent.call(this, 'maenad:done-playing', this.song);
 }

@@ -1,15 +1,12 @@
 maenad-aws-song-importer {
     cursor  : pointer;
     display : block;
-    margin  : 15px 0;
 }
 
 maenad-aws-song-importer[data-importing] {
-    background     : orange;
     pointer-events : none;
 }
 
 maenad-aws-song-importer[data-imported] {
-    background     : green;
     pointer-events : none;
 }
