@@ -8,7 +8,7 @@ maenad-song-list, maenad-aws-importer {
 maenad-song-item, maenad-aws-song-importer {
     border-bottom : 1px solid #ccc;
     display       : flex;
-    margin-bottom : 0 0 5px;
+    margin        : 0;
     flex-flow     : row wrap;
     padding       : 10px 0;
     width         : 100%;
@@ -73,16 +73,6 @@ maenad-player h1 {
     max-width     : 100vw;
 }
 
-maenad-player .play-progress {
-    background     : rgba(0, 33, 0, 0.2);
-    bottom         : 0;
-    display        : block;
-    pointer-events : none;
-    position       : absolute;
-    top            : 0;
-    z-index        : -1;
-}
-
 maenad-loader article {
     display : flex;
 }
@@ -98,6 +88,37 @@ maenad-aws-importer {
     height     : calc(100vh - 90px);
     overflow-x : hidden;
     overflow-y : auto;
+}
+
+maenad-aws-song-importer {
+    position : relative;
+}
+
+progress {
+    background : white;
+    border     : 0;
+    bottom     : 0;
+    display    : block;
+    height     : 100%;
+    left       : 0;
+    outline    : 0;
+    position   : absolute;
+    right      : 0;
+    top        : 0;
+    width      : 100%;
+    z-index    : -1;
+}
+
+progress::-moz-progress-bar {
+    background : #ccc;
+}
+
+progress::-webkit-progress-value {
+    background : #ccc;
+}
+
+progress::-webkit-progress-bar {
+    background : white;
 }
 
 maenad-configuration-manager input,

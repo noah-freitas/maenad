@@ -19,17 +19,23 @@ function createdCallback() {
         }
     });
 
+    this.progress       = document.createElement('progress');
+    this.progress.max   = 100;
+    this.progress.value = 0;
+    this.appendChild(this.progress);
+    this.appendChild(document.createElement('span'));
+
     this.addEventListener('click', () => {
         this.dataset.importing = 'true';
 
-        getFile(this.src)
+        getFile(this.src, this.progress)
             .then(loadFile.bind(this))
             .then(showLoadedUi.bind(this));
     });
 }
 
-// getFile :: String -> Promise<File>
-function getFile(key) {
+// getFile :: String, Element -> Promise<File>
+function getFile(key, el) {
     return new Promise((res, rej) => {
         s3.getObject({
             Key : key
@@ -37,6 +43,8 @@ function getFile(key) {
             if (err) return rej(err);
 
             res(new File([data.Body], stripPrefix(key), { type : data.ContentType }));
+        }).on('httpDownloadProgress', progress => {
+            el.value = Math.floor(progress.loaded / progress.total * 100);
         });
     });
 }
@@ -48,7 +56,7 @@ function loadFile(file) {
 
 // showFileName :: String -> undefined
 function showFileName(src) {
-    this.textContent = stripPrefix(src);
+    this.querySelector('span').textContent = stripPrefix(src);
 }
 
 // showLoadedUi :: undefined -> undefined
