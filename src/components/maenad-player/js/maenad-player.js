@@ -33,12 +33,13 @@ function createdCallback() {
     function attachTemplate() {
         let audioEl  = document.createElement('audio'),
             titleEl  = document.createElement('h1'),
-            progress = document.createElement('span');
+            progress = document.createElement('progress');
 
-        progress.classList.add('play-progress');
         audioEl.controls    = true;
         audioEl.hidden      = true;
         titleEl.textContent = 'Maenad Player';
+        progress.max        = 100;
+        progress.value      = 0;
         this.appendChild(titleEl);
         this.appendChild(audioEl);
         this.appendChild(progress);
@@ -72,7 +73,7 @@ function play(song) {
         title = this.querySelector('h1');
 
     this.song = song;
-    this.querySelector('.play-progress').style.width = '0';
+    this.querySelector('progress').value = 0;
 
     if (!song) {
         audio.src = null;
@@ -113,7 +114,7 @@ function timeupdateHandler(e) {
         totalSeconds  = audioEl.duration,
         percentPlayed = Math.floor(secondsSoFar / totalSeconds * 100);
 
-    requestAnimationFrame(() => this.querySelector('.play-progress').style.width = `${ percentPlayed }%`);
+    requestAnimationFrame(() => this.querySelector('progress').value = percentPlayed);
 
     if (percentPlayed === 100) fireEvent.call(this, 'maenad:done-playing', this.song);
 }
