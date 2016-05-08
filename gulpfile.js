@@ -30,6 +30,8 @@ gulp.task('compile-js', ['clean-all'], function () {
         ])
         .pipe(gulp.dest('dist/bower_components'));
 
+    gulp.src('service-worker.js').pipe(gulp.dest('dist'));
+
     return gulp.src('src/**/*.js')
                .pipe(babel())
                .pipe(gulp.dest('dist'));
@@ -45,14 +47,11 @@ gulp.task('clean-all', function () {
 
 gulp.task('server', ['build-app'], function () {
     return gulp.src('dist')
-               .pipe(server({
-                    livereload : true,
-                    open       : true
-               }));
+               .pipe(server({ open : true }));
 });
 
 gulp.task('watch', function () {
-    watch(['src/**/*.js', 'src/**/*.html', 'src/**/*.css'], function () {
+    watch(['src/service-worker.js', 'src/**/*.js', 'src/**/*.html', 'src/**/*.css'], function () {
         gulp.start('build-app');
     });
 });
