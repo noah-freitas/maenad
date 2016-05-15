@@ -2,7 +2,7 @@
 
 const DEBUG = false;
 
-const cacheName = 'app-assets-0.3.0';
+const cacheName = 'app-assets-<%= version %>-<%= commit %>';
 
 const assetUrls = [
     'bower_components/aws-sdk.js',
