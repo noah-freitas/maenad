@@ -1,8 +1,13 @@
-var babel  = require('gulp-babel'),
-    del    = require('del'),
-    gulp   = require('gulp'),
-    server = require('gulp-webserver'),
-    watch  = require('gulp-watch');
+var babel    = require('gulp-babel'),
+    del      = require('del'),
+    git      = require('git-rev'),
+    gulp     = require('gulp'),
+    server   = require('gulp-webserver'),
+    template = require('gulp-template'),
+    version  = require('./package.json').version,
+    watch    = require('gulp-watch');
+
+var devFlag = false;
 
 gulp.task('default', ['build-app']);
 
@@ -23,18 +28,24 @@ gulp.task('compile-css', ['compile-js'], function () {
 });
 
 gulp.task('compile-js', ['clean-all'], function () {
-    gulp.src([
+   gulp.src([
           'bower_components/aws-sdk/dist/aws-sdk.js',
           'bower_components/document-register-element/build/document-register-element.js',
           'bower_components/system.js/dist/system.js'
         ])
         .pipe(gulp.dest('dist/bower_components'));
 
-    gulp.src('service-worker.js').pipe(gulp.dest('dist'));
 
-    return gulp.src('src/**/*.js')
-               .pipe(babel())
-               .pipe(gulp.dest('dist'));
+
+   git.short(commit => {
+      gulp.src('service-worker.js')
+          .pipe(template({ commit: devFlag ? Math.random().toString(16).substr(3) : commit, version }))
+          .pipe(gulp.dest('dist'));
+   });
+
+   return gulp.src('src/**/*.js')
+              .pipe(babel())
+              .pipe(gulp.dest('dist'));
 });
 
 gulp.task('clean-all', function () {

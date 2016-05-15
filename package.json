@@ -15,9 +15,12 @@
     "babel-plugin-transform-es2015-modules-systemjs": "^6.6.5",
     "del": "^2.2.0",
     "eslint": "^2.9.0",
+    "git-rev": "^0.2.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
+    "gulp-template": "^4.0.0",
     "gulp-watch": "^4.3.5",
-    "gulp-webserver": "^0.9.1"
+    "gulp-webserver": "^0.9.1",
+    "lodash.template": "^4.2.5"
   }
 }
