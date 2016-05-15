@@ -6,7 +6,3 @@ maenad-aws-song-importer {
 maenad-aws-song-importer[data-importing] {
     pointer-events : none;
 }
-
-maenad-aws-song-importer[data-imported] {
-    pointer-events : none;
-}
