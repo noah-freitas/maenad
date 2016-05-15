@@ -18,8 +18,11 @@ gulp.task('build-app', ['compile-html'], function () {
 });
 
 gulp.task('compile-html', ['compile-css'], function () {
-	return gulp.src('src/**/*.html')
-               .pipe(gulp.dest('dist'));
+   git.short(commit => {
+      gulp.src('src/**/*.html')
+          .pipe(template({ commit : valOrRandomHash(commit), version }))
+          .pipe(gulp.dest('dist'));
+   });
 });
 
 gulp.task('compile-css', ['compile-js'], function () {
@@ -39,7 +42,7 @@ gulp.task('compile-js', ['clean-all'], function () {
 
    git.short(commit => {
       gulp.src('service-worker.js')
-          .pipe(template({ commit: devFlag ? Math.random().toString(16).substr(3) : commit, version }))
+          .pipe(template({ commit : valOrRandomHash(commit), version }))
           .pipe(gulp.dest('dist'));
    });
 
@@ -66,3 +69,8 @@ gulp.task('watch', function () {
         gulp.start('build-app');
     });
 });
+
+// valOrRandomHash :: a -> a || String
+function valOrRandomHash(val) {
+   return devFlag ? Math.random().toString(16).substr(3) : val;
+}
