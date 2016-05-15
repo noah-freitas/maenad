@@ -62,7 +62,7 @@ function showFileName(src) {
 // showLoadedUi :: undefined -> undefined
 function showLoadedUi() {
     delete this.dataset.importing;
-    this.dataset.imported = 'true';
+    this.remove();
 }
 
 // stripPrefix :: String -> String
