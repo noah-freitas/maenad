@@ -61,6 +61,14 @@ maenad-player[data-playing-state="paused"] {
     color      : #fff;
 }
 
+maenad-player[data-playing-state="paused"] progress {
+    background : transparent;
+}
+
+maenad-player[data-playing-state="paused"] progress::-webkit-progress-bar {
+    background : transparent;
+}
+
 maenad-player h1 {
     box-sizing    : border-box;
     font-size     : 1em;
