@@ -1,6 +1,6 @@
 {
   "name": "maenad",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Browser based music player",
   "repository": "https://github.com/noah-freitas/maenad",
   "main": "dist/index.html",
@@ -14,10 +14,13 @@
     "babel-cli": "^6.6.5",
     "babel-plugin-transform-es2015-modules-systemjs": "^6.6.5",
     "del": "^2.2.0",
-    "eslint": "^2.4.0",
+    "eslint": "^2.9.0",
+    "git-rev": "^0.2.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
+    "gulp-template": "^4.0.0",
     "gulp-watch": "^4.3.5",
-    "gulp-webserver": "^0.9.1"
+    "gulp-webserver": "^0.9.1",
+    "lodash.template": "^4.2.5"
   }
 }
