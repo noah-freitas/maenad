@@ -51,7 +51,7 @@ function installHandler(e) {
     log('install: ', e);
 
     e.waitUntil(caches.open(cacheName)
-                      .then(cache => cache.addAll(assetUrls)));
+                      .then(cache => Promise.all(assetUrls.map(url => cache.add(url)))));
 }
 
 // activateHandler :: ExtendableEvent -> undefined
