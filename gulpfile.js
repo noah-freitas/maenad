@@ -13,7 +13,7 @@ gulp.task('default', ['build-app']);
 
 gulp.task('develop', ['server', 'watch']);
 
-gulp.task('build-app', ['compile-html'], function () {
+gulp.task('build-app', ['compile-html', 'compile-misc'], function () {
     return del(['build']);
 });
 
@@ -51,9 +51,21 @@ gulp.task('compile-js', ['clean-all'], function () {
               .pipe(gulp.dest('dist'));
 });
 
+gulp.task('compile-misc', [], function () {
+  gulp.src('src/manifest.json')
+      .pipe(gulp.dest('dist'));
+
+  gulp.src('src/favicon.png')
+      .pipe(gulp.dest('dist'))
+
+  return gulp.src('src/icons/*.png')
+             .pipe(gulp.dest('dist/icons'));
+});
+
 gulp.task('clean-all', function () {
     return del([
         'dist/**/*.css',
+        'dist/icons/*.png',
         'dist',
         'build'
     ]);
