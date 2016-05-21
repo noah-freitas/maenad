@@ -27,16 +27,22 @@ function saveConfigs() {
 
     // nodeToTuple :: Element -> Object
     function nodeToTuple(el) {
-        let label, val;
+        let elName = el.tagName.toLowerCase(),
+            label,
+            val;
 
-        switch (el.tagName.toLowerCase()) {
-            case 'fieldset' :
+        switch (true) {
+            case elName === 'fieldset' :
                 label = el.querySelector('legend').textContent;
                 val   = mergeObjects(Array.from(el.querySelectorAll('label')).map(nodeToTuple));
                 break;
-            case 'label' :
+            case Boolean(elName === 'label' && el.querySelector('input[type="text"]')) :
                 label = el.querySelector('span').textContent;
                 val   = el.querySelector('input').value;
+                break;
+            case Boolean(elName === 'label' && el.querySelector('input[type="checkbox"]')) :
+                label = el.querySelector('span').textContent;
+                val   = el.querySelector('input').checked;
                 break;
         }
 
@@ -81,6 +87,10 @@ function showConfigs(configs) {
             span  = document.createElement('span');
 
         switch (typeof value) {
+            case 'boolean' :
+                input.type    = 'checkbox';
+                input.checked = value;
+                break;
             case 'string' :
                 input.type  = 'text';
                 input.value = value;
