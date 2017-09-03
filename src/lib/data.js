@@ -3,6 +3,7 @@ import Song from 'lib/song.js';
 
 export default {
     addFiles,
+    deleteSong,
     getAllSongs,
     getFirstSong
 };
@@ -26,6 +27,21 @@ function addFiles(files) {
             }, 'song', 'readwrite');
         });
     }
+}
+
+// deleteSong :: Number -> Promise<undefined>
+function deleteSong(songId) {
+    return new Promise((res, rej) => {
+        db.getObjectStore((err, os) => {
+            if (err) return rej(err);
+
+            let trans = os.transaction;
+            trans.addEventListener('complete', () => res());
+            trans.addEventListener('error'   , rej);
+
+            os.delete(songId);
+        }, 'song', 'readwrite');
+    });
 }
 
 // songFileToPromise :: Song -> Song

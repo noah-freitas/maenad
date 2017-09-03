@@ -1,4 +1,7 @@
 maenad-song-item {
-    cursor  : pointer;
-    display : block;
+    cursor              : pointer;
+    display             : block;
+    -moz-user-select    : none;
+    -webkit-user-select : none;
+    user-select         : none;
 }

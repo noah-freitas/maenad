@@ -1,3 +1,4 @@
+import data       from 'lib/data.js';
 import registerEl from 'lib/register-element.js';
 
 let songsForEls = new WeakMap();
@@ -33,9 +34,27 @@ function createdCallback() {
     album.classList.add('album');
     artist.classList.add('artist');
 
+    let menuId      = 'maenad-contextmenu-' + Math.random().toString(16).substr(2),
+        contextMenu = document.createElement('menu');
+
+    let deleteMenuItem   = document.createElement('menuitem');
+    deleteMenuItem.label = 'Delete Song';
+    deleteMenuItem.type  = 'command';
+    deleteMenuItem.addEventListener('click', e => {
+        e.stopPropagation();
+        e.preventDefault();
+        data.deleteSong(this.song.id).then(_ => this.remove());
+    });
+    contextMenu.appendChild(deleteMenuItem);
+
+    contextMenu.id   = menuId;
+    contextMenu.type = 'context';
+    this.setAttribute('contextmenu', menuId);
+
     this.appendChild(title);
     this.appendChild(artist);
     this.appendChild(album);
+    this.appendChild(contextMenu);
 
     this.playingCallback = handlePlayingEvent.bind(this);
 }
